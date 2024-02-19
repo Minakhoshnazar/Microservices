@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  apartments:
+    build: ./apartment
+    ports:
+      - "5001:5000"
+    depends_on:
+      - rabbitmq
+      - mongodb
+
+  booking:
+    build: ./booking
+    ports:
+      - "5002:5000"
+    depends_on:
+      #- rabbitmq
+      - mongodb
+
+  search:
+    build: ./search
+    ports:
+      - "5003:5000"
+    depends_on:
+      - rabbitmq
+      - mongodb 
+
+  mongodb:
+    image: mongo
+    container_name: 'mongodb'
+    ports:
+      - "27017:27017"
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
